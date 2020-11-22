@@ -5,6 +5,5 @@ Jinja2==2.10.1
 MarkupSafe==1.1.1
 Werkzeug==0.15.5
 googletrans==3.0.0
-sumy==0.8.1
 afinn==0.1
 gensim==3.8.3
