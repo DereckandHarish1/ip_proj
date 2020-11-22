@@ -1,0 +1,9 @@
+  Flask==1.1.1
+gunicorn==19.9.0
+itsdangerous==1.1.0
+Jinja2==2.10.1
+MarkupSafe==1.1.1
+Werkzeug==0.15.5
+googletrans=3.0.0
+sumy=0.8.1
+afinn=0.1
