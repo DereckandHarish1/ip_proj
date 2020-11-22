@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request
 from afinn import Afinn
 from googletrans import Translator
-#from gensim.summarization import summarize
-from sumy.parsers.plaintext import PlaintextParser
-from sumy.nlp.tokenizers import Tokenizer
-from sumy.summarizers.lex_rank import LexRankSummarizer
+from gensim.summarization import summarize
+# from sumy.parsers.plaintext import PlaintextParser
+# from sumy.nlp.tokenizers import Tokenizer
+# from sumy.summarizers.lex_rank import LexRankSummarizer
 
 app = Flask(__name__, template_folder='templates')
 
 
-#
+
 
 
 @app.route("/")
@@ -37,11 +37,12 @@ def summary():
 def summary_pred():
     text = [str(x) for x in request.form.values()]
     docx = "".join(text)
-    parser = PlaintextParser.from_string(docx, Tokenizer("english"))
-    lex_summarizer = LexRankSummarizer()
-    summary = lex_summarizer(parser.document, 3)
-    summary_list = [str(sentence) for sentence in summary]
-    result = "".join(summary_list)
+    # parser = PlaintextParser.from_string(docx, Tokenizer("english"))
+    # lex_summarizer = LexRankSummarizer()
+    # summary = lex_summarizer(parser.document, 3)
+    # summary_list = [str(sentence) for sentence in summary]
+    # result = "".join(summary_list)
+    result = summarize(docx,word_count=100)
     return render_template('summary.html', prediction_text = "{}".format(result))
 
 
