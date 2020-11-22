@@ -7,3 +7,4 @@ Werkzeug==0.15.5
 googletrans==3.0.0
 sumy==0.8.1
 afinn==0.1
+gensim==3.8.3
