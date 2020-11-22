@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <header class="text-gray-700 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+                <span class="ml-3 text-xl">Analyzer</span>
+            </a>
+            <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+                <a href="#" class="mr-5 hover:text-gray-900">Home</a>
+                <a href="/summary " class="mr-5 hover:text-gray-900">Summarizer</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Visualization</a>
+                <a href="/feedback" class="mr-5 hover:text-gray-900">feedback</a>
+
+            </nav>
+            <a href="/signup"><button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Sign Up
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+            </a>
+        </div>
+    </header>
+    <section class="text-gray-700 body-font">
+        <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+            <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Twitter Sentiment Analyzer</h1>
+                <p class="mb-8 leading-relaxed">This web app will give sentiment based on the text which you provide. It uses unsupervised techniques to give particular sentiment. Afinn Lexicon model is used in this app.</p>
+                <div class="flex w-full md:justify-start justify-center items-end">
+                    <div class="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
+                        <form action="{{ url_for('predict')}}"method="post">
+                        <label for="hero-field" class="leading-7 text-sm text-gray-600">Enter Text</label>
+                        <input type="text" id="hero-field" name="hero-field" class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
+                    <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
+                        </form>
+                </div>
+                <p class="text-sm mt-2 text-gray-500 mb-8 w-full">Give us text and take sentiment.</p>
+
+            </div>
+            <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+                <img class="object-cover object-center rounded" alt="hero" src="https://www.digitalvidya.com/wp-content/uploads/2018/10/TWITTER-SENTIMENT-ANALYSIS.png">
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    &nbsp;
+    <div class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{{ prediction_text }}</div>>
+    &nbsp;
+    <div class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{{ prediction_text1 }}</div>>
+
+
+</body>
+
+</html>
