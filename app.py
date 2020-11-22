@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from afinn import Afinn
 from googletrans import Translator
-from gensim.summarization import summarize
+#from gensim.summarization import summarize
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
