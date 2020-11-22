@@ -1,59 +1,11 @@
-from flask import Flask, render_template, request
-# from afinn import Afinn
 from googletrans import Translator
-from gensim.summarization import summarize
-# from sumy.parsers.plaintext import PlaintextParser
-# from sumy.nlp.tokenizers import Tokenizer
-# from sumy.summarizers.lex_rank import LexRankSummarizer
-from textblob import TextBlob
-app = Flask(__name__, template_folder='templates')
-# from flask_ngrok import run_with_ngrok
-# run_with_ngrok(app)
+from afinn import Afinn
+af = Afinn()
+translator = Translator()
 
-
-
-@app.route("/")
-def home():
-    return render_template('index.html')
-
-
-@app.route("/signup")
-def sign():
-    return render_template('signup.html')
-
-
-#
-#
-@app.route("/feedback")
-def feedback():
-    return render_template('feedback.html')
-
-@app.route("/summary")
-def summary():
-    return render_template('summary.html')
-
-
-@app.route('/summary_pred', methods=['POST'])
-def summary_pred():
-    text = [str(x) for x in request.form.values()]
-    docx = "".join(text)
-    # parser = PlaintextParser.from_string(docx, Tokenizer("english"))
-    # lex_summarizer = LexRankSummarizer()
-    # summary = lex_summarizer(parser.document, 3)
-    # summary_list = [str(sentence) for sentence in summary]
-    # result = "".join(summary_list)
-    result = summarize(docx,word_count=100)
-    return render_template('summary.html', prediction_text = "{}".format(result))
-
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    # af = Afinn()
-    translator = Translator()
-    text = [str(x) for x in request.form.values()]
-    text1 = "".join(text)
-    trans = translator.translate(text1)
-    detect_dict = {'af': 'afrikaans', 'sq': 'albanian',
+st = "tu acha aadmi hain,വിഡ്ഢി"
+trans = translator.translate(st)
+detect_dict = {'af': 'afrikaans', 'sq': 'albanian',
                    'am': 'amharic', 'ar': 'arabic',
                    'hy': 'armenian', 'az': 'azerbaijani',
                    'eu': 'basque', 'be': 'belarusian',
@@ -108,25 +60,9 @@ def predict():
                    'yo': 'yoruba', 'zu': 'zulu',
                    'fil': 'Filipino', 'he': 'Hebrew'}
 
-    # for key, value in detect_dict.items():
-    #     if key == trans.src:
-    #         lang = value
-    texts = TextBlob(trans.text)
-    #
-    prediction = texts.sentiment.polarity
-    # prediction = af.score(trans.text)
+for key, value in detect_dict.items():
+    if key == trans.src:
+        print("Input Language :- ", value)
 
-    if prediction > 0:
-        return render_template('index.html', prediction_text1='The Given Sentiment Is Positive',
-                               prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
-    elif prediction < 0:
-        return render_template('index.html', prediction_text1='The Given Sentiment Is Negative',
-                               prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
+sa = af.score(trans.text)
 
-    else:
-        return render_template('index.html',
-                               prediction_text='The Given Sentiment Is Neutral With Polarity Score {}'.format(
-                                   prediction))
-
-
-app.run()
