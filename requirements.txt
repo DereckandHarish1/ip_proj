@@ -5,5 +5,4 @@ Jinja2==2.10.1
 MarkupSafe==1.1.1
 Werkzeug==0.15.5
 googletrans==3.0.0
-textblob==0.15.3
 gensim==3.8.3
