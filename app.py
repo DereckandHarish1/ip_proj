@@ -5,7 +5,7 @@ from gensim.summarization import summarize
 # from sumy.parsers.plaintext import PlaintextParser
 # from sumy.nlp.tokenizers import Tokenizer
 # from sumy.summarizers.lex_rank import LexRankSummarizer
-# from textblob import TextBlob
+from textblob import TextBlob
 app = Flask(__name__, template_folder='templates')
 # from flask_ngrok import run_with_ngrok
 # run_with_ngrok(app)
@@ -111,23 +111,26 @@ def predict():
     # for key, value in detect_dict.items():
     #     if key == trans.src:
     #         lang = value
-    texts = trans.text
+    texts = TextBlob(trans.text)
     #
-#     prediction = texts.sentiment.polarity
-    # prediction = af.score(trans.text)
+    prediction = texts.sentiment.polarity
+#     prediction = af.score(trans.text)
 
-#     if prediction > 0:
-#         return render_template('index.html', prediction_text1='The Given Sentiment Is Positive',
-#                                prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
-#     elif prediction < 0:
-#         return render_template('index.html', prediction_text1='The Given Sentiment Is Negative',
-#                                prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
+    if prediction > 0:
+        return render_template('index.html', prediction_text1='The Given Sentiment Is Positive',
+                               prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
+    elif prediction < 0:
+        return render_template('index.html', prediction_text1='The Given Sentiment Is Negative',
+                               prediction_text="The Polarity Score For Given Sentiment Is {}".format(prediction))
 
-#     else:
-#         return render_template('index.html',
-#                                prediction_text='The Given Sentiment Is Neutral With Polarity Score {}'.format(
-#                                    prediction))
-      return render_template("index.html",prediction_text=texts)
+    else:
+        return render_template('index.html',
+                               prediction_text='The Given Sentiment Is Neutral With Polarity Score {}'.format(
+                                   prediction))
+#       return render_template("index.html",prediction_text=texts)
 
 
-app.run()
+if __name__ == '__main__':
+   
+
+    app.run(debug=True)
