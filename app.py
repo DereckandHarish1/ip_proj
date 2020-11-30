@@ -6,13 +6,16 @@ from gensim.summarization import summarize
 # from sumy.nlp.tokenizers import Tokenizer
 # from sumy.summarizers.lex_rank import LexRankSummarizer
 from textblob import TextBlob
+from viz import *
+
 app = Flask(__name__, template_folder='templates')
+
+
 # from flask_ngrok import run_with_ngrok
 # run_with_ngrok(app)
 
 
-
-@app.route("/", methods=['GET','POST'])
+@app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template('index.html')
 
@@ -28,7 +31,8 @@ def sign():
 def feedback():
     return render_template('feedback.html')
 
-@app.route("/summary")
+
+@app.route("/summary/")
 def summary():
     return render_template('summary.html')
 
@@ -42,8 +46,8 @@ def summary_pred():
     # summary = lex_summarizer(parser.document, 3)
     # summary_list = [str(sentence) for sentence in summary]
     # result = "".join(summary_list)
-    result = summarize(docx,word_count=100)
-    return render_template('summary.html', prediction_text = "{}".format(result))
+    result = summarize(docx, word_count=100)
+    return render_template('summary.html', prediction_text="{}".format(result))
 
 
 @app.route('/predict', methods=['POST'])
@@ -114,7 +118,7 @@ def predict():
     texts = TextBlob(trans.text)
     #
     prediction = texts.sentiment.polarity
-#     prediction = af.score(trans.text)
+    #     prediction = af.score(trans.text)
 
     if prediction > 0:
         return render_template('index.html', prediction_text1='The Given Sentiment Is Positive',
@@ -127,10 +131,22 @@ def predict():
         return render_template('index.html',
                                prediction_text='The Given Sentiment Is Neutral With Polarity Score {}'.format(
                                    prediction))
-#       return render_template("index.html",prediction_text=texts)
+
+
+@app.route('/visualizer/', methods=['GET'])
+def visualizer():
+    return render_template('visualizer.html')
+
+
+@app.route('/visual_predict', methods=['POST'])
+def visual_predict():
+    app_name = "".join([str(x) for x in request.form.values()])
+    rev, app_id = get_review(app_name)
+    senti_dict, pie = create_db(rev, app_id)
+    bar, pie = bar_pie(senti_dict, pie)
+
+    return render_template('charts.html', bar=bar, pie=pie)
 
 
 if __name__ == '__main__':
-   
-
-    app.run()
+    app.run(debug=True)

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Sentiment Plotting</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .column {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      height: 100%;
+      /* Should be removed. Only for demonstration */
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    @media screen and (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="row container-fluid">
+    <div class="column container-fluid" style="background-color:yellow;">
+      <h2>Bar Chart</h2>
+      <div class="chart" id="bargraph">
+        <script>
+          var graphs = {{ bar | safe}};
+
+
+          Plotly.newPlot('bargraph', graphs, { responsive: true });
+        </script>
+      </div>
+
+    </div>
+    <div class="column container-fluid" style="background-color:red;">
+      <h2>Pie Chart</h2>
+
+      <div class="chart" id="piegraph">
+        <script>
+          var graphs1 = {{ pie | safe}};
+
+          var layout = {
+            title: 'Responsive to window\'s size!',
+            font: { size: 18 }
+          };
+
+          var config = { responsive: true }
+
+          Plotly.newPlot('piegraph', graphs1, layout, config);
+        </script>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
