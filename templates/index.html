@@ -20,11 +20,17 @@
             <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
                 <a href="#" class="mr-5 hover:text-gray-900">Home</a>
                 <a href="/summary " class="mr-5 hover:text-gray-900">Summarizer</a>
-                <a href="{{url_for('visualizer')}}" class="mr-5 hover:text-gray-900">Visualization</a>
-                <a href="/feedback" class="mr-5 hover:text-gray-900">feedback</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Visualization</a>
+                <a href="/feedback" class="mr-5 hover:text-gray-900">Feedback</a>
+                <a href="/trending" class="mr-5 hover:text-gray-900">Trending</a>
 
             </nav>
-   
+            <a href="/"><button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Sign Out
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+            </a>
         </div>
     </header>
     <section class="text-gray-700 body-font">
@@ -34,7 +40,7 @@
                 <p class="mb-8 leading-relaxed">This web app will give sentiment based on the text which you provide. It uses unsupervised techniques to give particular sentiment. Afinn Lexicon model is used in this app.</p>
                 <div class="flex w-full md:justify-start justify-center items-end">
                     <div class="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
-                        <form action="{{ url_for('predict')}}"method="post">
+                        <form action="{{ url_for('predict')}}" method="post">
                         <label for="hero-field" class="leading-7 text-sm text-gray-600">Enter Text</label>
                         <input type="text" id="hero-field" name="hero-field" class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     </div>

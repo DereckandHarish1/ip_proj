@@ -18,50 +18,51 @@
                 <span class="ml-3 text-xl">Analyzer</span>
             </a>
             <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-                <a href="/index" class="mr-5 hover:text-gray-900">Home</a>
-                <a href="/summary" class="mr-5 hover:text-gray-900">Summarizer</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Home</a>
+                <a href="/summary " class="mr-5 hover:text-gray-900">Summarizer</a>
                 <a href="#" class="mr-5 hover:text-gray-900">Visualization</a>
                 <a href="/feedback" class="mr-5 hover:text-gray-900">Feedback</a>
                 <a href="/trending" class="mr-5 hover:text-gray-900">Trending</a>
 
             </nav>
-       
         </div>
     </header>
-    <section class="text-gray-700 body-font">
+
+<section class="text-gray-700 body-font">
         <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
             <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Summarizer</h1>
-                <p class="mb-8 leading-relaxed">
-                    Summarizer will summarize large text. This summarizer will return key points of the given text.</p>
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Twitter Trending Tweets</h1>
+                <p class="mb-8 leading-relaxed">This web app will give trending tweets if you provide WOEID of your country.</p>
                 <div class="flex w-full md:justify-start justify-center items-end">
                     <div class="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
-                        <form action="{{ url_for('summary_pred')}}" method="post">
-                            <label for="hero-field" class="leading-7 text-sm text-gray-600">Enter Text</label>
-                            <textarea type="text" id="hero-field" name="hero-field" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-
-
-                            <div>
-                                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
-                            </div>
-                        </form>
-
+                        <form action="{{ url_for('tweet_pred')}}"method="post">
+                        <label for="hero-field" class="leading-7 text-sm text-gray-600">Enter Text</label>
+                        <input type="text" id="hero-field" name="hero-field" class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     </div>
-
-
+                    <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
+                        </form>
                 </div>
-
+                <p class="text-sm mt-2 text-gray-500 mb-8 w-full">Give us text and take trending tweets.</p>
 
             </div>
             <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-                <img class="object-cover object-center rounded" alt="hero" src="https://venngage-wordpress.s3.amazonaws.com/uploads/2018/02/header-3.png">
+                <img class="object-cover object-center rounded" alt="hero" src="https://www.digitalvidya.com/wp-content/uploads/2018/10/TWITTER-SENTIMENT-ANALYSIS.png">
             </div>
         </div>
     </section>
-    <hr>
-    <h3 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900" style="text-align:center">Summary Of Given Text</h3>
-    <hr> &nbsp;
-    <div class="ml-5 text-xl">{{ prediction_text }}</div>
-</body>
+<hr>
 
+    &nbsp;
+    <div class="ml-5 text-xl">
+          <ul>
+  {% for user in prediction_text %}
+    <li>{{ user }}</li>
+  {% endfor %}
+  </ul>
+
+    </div>>
+
+    &nbsp;
+</body>
+</body>
 </html>
