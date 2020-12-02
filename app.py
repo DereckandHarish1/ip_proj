@@ -1,12 +1,9 @@
 from flask import Flask, render_template, request
 # from afinn import Afinn
 from gensim.summarization import summarize
-# from sumy.parsers.plaintext import PlaintextParser
-# from sumy.nlp.tokenizers import Tokenizer
-# from sumy.summarizers.lex_rank import LexRankSummarizer
 from textblob import TextBlob
-from admin.admin import *
-from visual.tweets import tweetss
+from admin import *
+from visual import *
 from viz import *
 from lang_detect import *
 from flask_bcrypt import Bcrypt
