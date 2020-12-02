@@ -18,10 +18,11 @@
                 <span class="ml-3 text-xl">Analyzer</span>
             </a>
             <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-                <a href="{{url_for('home')}}" class="mr-5 hover:text-gray-900">Home</a>
+                <a href="/index" class="mr-5 hover:text-gray-900">Home</a>
                 <a href="/summary " class="mr-5 hover:text-gray-900">Summarizer</a>
-                <a href="{{url_for('visualizer')}}" class="mr-5 hover:text-gray-900">Visualization</a>
-                <a href="/feedback" class="mr-5 hover:text-gray-900">feedback</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Visualization</a>
+                <a href="/feedback" class="mr-5 hover:text-gray-900">Feedback</a>
+                <a href="/trending" class="mr-5 hover:text-gray-900">Trending</a>
 
             </nav>
 
@@ -37,7 +38,8 @@
                         <form action="{{ url_for('visual_predict')}}" method="post">
                         <label for="hero-field" class="leading-7 text-sm text-gray-600">Enter URl of App</label>
                         <input type="text" id="hero-field" name="hero-field" class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-
+                            <br/>
+                            <br/>
                     <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
 
 

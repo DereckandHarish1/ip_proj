@@ -1,15 +1,20 @@
 from flask import Flask, render_template, request
-from afinn import Afinn
-from googletrans import Translator
+# from afinn import Afinn
 from gensim.summarization import summarize
 # from sumy.parsers.plaintext import PlaintextParser
 # from sumy.nlp.tokenizers import Tokenizer
 # from sumy.summarizers.lex_rank import LexRankSummarizer
-# from textblob import TextBlob
-from admin.admin import store,ret,check
+from textblob import TextBlob
+from admin.admin import *
 from visual.tweets import tweetss
+from viz import *
+from lang_detect import *
+from flask_bcrypt import Bcrypt
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder='templates')
+# bcrypt = Bcrypt(app)
+
 
 # from flask_ngrok import run_with_ngrok
 # run_with_ngrok(app)
@@ -52,12 +57,11 @@ def login_up():
     email = request.form["email"]
     password = request.form["pw"]
     a = ret()
-    ch = check(email, password, a)
+    ch = check2(email, password, a)
     if ch:
         return render_template("index.html")
     else:
-        return render_template("login.html",prediction_text="Invalid Username or Password")
-
+        return render_template("login.html", prediction_text="Invalid Username or Password")
 
 
 @app.route('/summary_pred', methods=['POST'])
@@ -72,85 +76,41 @@ def summary_pred():
     result = summarize(docx, word_count=100)
     return render_template('summary.html', prediction_text="{}".format(result))
 
+
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
+    r = ret()
     email = request.form["email"]
     password = request.form["psw"]
-    dict = {"email":email,"password":password}
-    store(dict)
-    return render_template('login.html')
+    pass2 = request.form["psw-repeat"]
+    if email_valid(email):
+        if pass_check(password, pass2):
+            # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            hp = generate_password_hash(password)
+            if email_check(email, r):
+                dicts = {"email": email, "password": hp}
+                store(dicts)
+                print("yes")
+                return render_template('login.html')
+            else:
+                return render_template("signup.html", predicted="Username already taken")
+
+        else:
+            return render_template("signup.html", pass_re="Password is not matching")
+
+    else:
+        return render_template("signup.html", email="Invalid Email")
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        af = Afinn()
-        translator = Translator()
         text = [str(x) for x in request.form.values()]
         text1 = "".join(text)
-        trans = translator.translate(text1)
-        detect_dict = {'af': 'afrikaans', 'sq': 'albanian',
-                       'am': 'amharic', 'ar': 'arabic',
-                       'hy': 'armenian', 'az': 'azerbaijani',
-                       'eu': 'basque', 'be': 'belarusian',
-                       'bn': 'bengali', 'bs': 'bosnian',
-                       'bg': 'bulgarian', 'ca': 'catalan',
-                       'ceb': 'cebuano', 'ny': 'chichewa',
-                       'zh-cn': 'chinese (simplified)',
-                       'zh-tw': 'chinese (traditional)',
-                       'co': 'corsican', 'hr': 'croatian',
-                       'cs': 'czech', 'da': 'danish',
-                       'nl': 'dutch', 'en': 'english',
-                       'eo': 'esperanto', 'et': 'estonian',
-                       'tl': 'filipino', 'fi': 'finnish',
-                       'fr': 'french', 'fy': 'frisian',
-                       'gl': 'galician', 'ka': 'georgian',
-                       'de': 'german', 'el': 'greek',
-                       'gu': 'gujarati', 'ht': 'haitian creole',
-                       'ha': 'hausa', 'haw': 'hawaiian',
-                       'iw': 'hebrew', 'hi': 'hindi',
-                       'hmn': 'hmong', 'hu': 'hungarian',
-                       'is': 'icelandic', 'ig': 'igbo',
-                       'id': 'indonesian', 'ga': 'irish',
-                       'it': 'italian', 'ja': 'japanese',
-                       'jw': 'javanese', 'kn': 'kannada',
-                       'kk': 'kazakh', 'km': 'khmer',
-                       'ko': 'korean', 'ku': 'kurdish (kurmanji)',
-                       'ky': 'kyrgyz', 'lo': 'lao',
-                       'la': 'latin', 'lv': 'latvian',
-                       'lt': 'lithuanian', 'lb': 'luxembourgish',
-                       'mk': 'macedonian', 'mg': 'malagasy',
-                       'ms': 'malay', 'ml': 'malayalam',
-                       'mt': 'maltese', 'mi': 'maori',
-                       'mr': 'marathi', 'mn': 'mongolian',
-                       'my': 'myanmar (burmese)', 'ne': 'nepali',
-                       'no': 'norwegian', 'ps': 'pashto',
-                       'fa': 'persian', 'pl': 'polish',
-                       'pt': 'portuguese', 'pa': 'punjabi',
-                       'ro': 'romanian', 'ru': 'russian',
-                       'sm': 'samoan', 'gd': 'scots gaelic',
-                       'sr': 'serbian', 'st': 'sesotho',
-                       'sn': 'shona', 'sd': 'sindhi',
-                       'si': 'sinhala', 'sk': 'slovak',
-                       'sl': 'slovenian', 'so': 'somali',
-                       'es': 'spanish', 'su': 'sundanese',
-                       'sw': 'swahili', 'sv': 'swedish',
-                       'tg': 'tajik', 'ta': 'tamil',
-                       'te': 'telugu', 'th': 'thai',
-                       'tr': 'turkish', 'uk': 'ukrainian',
-                       'ur': 'urdu', 'uz': 'uzbek',
-                       'vi': 'vietnamese', 'cy': 'welsh',
-                       'xh': 'xhosa', 'yi': 'yiddish',
-                       'yo': 'yoruba', 'zu': 'zulu',
-                       'fil': 'Filipino', 'he': 'Hebrew'}
+        text = lan_det(text1)
+        texts = TextBlob(text)
 
-        # for key, value in detect_dict.items():
-        #     if key == trans.src:
-        #         lang = value
-        # texts = TextBlob(trans.text)
-        # #
-        # prediction = texts.sentiment.polarity
-        prediction = af.score(trans.text)
+        prediction = texts.sentiment.polarity
 
         if prediction > 0:
             return render_template('index.html', prediction_text1='The Given Sentiment Is Positive',
@@ -164,7 +124,7 @@ def predict():
                                    prediction_text='The Given Sentiment Is Neutral With Polarity Score {}'.format(
                                        prediction))
     except:
-        return render_template("index.html")
+        return render_template("index.html", prediction_text="Language Not Supported")
 
 
 @app.route('/tweet_pred', methods=['POST'])
@@ -174,4 +134,30 @@ def tweet_pred():
     return render_template("trending.html", prediction_text=tw)
 
 
-app.run()
+@app.route('/visualizer/')
+def visualizer():
+    return render_template('visualizer.html')
+
+
+@app.route('/visual_predict', methods=['POST'])
+def visual_predict():
+    app_name = "".join([str(x) for x in request.form.values()])
+    rev, app_id = get_review(app_name)
+    senti_dict, pie = create_db(rev, app_id)
+    bar, pie = bar_pie(senti_dict, pie)
+
+    return render_template('charts.html', bar=bar, pie=pie)
+
+
+@app.route('/feed_back', methods=['POST'])
+def feed_back():
+    email = request.form["email"]
+    message = request.form["message"]
+
+    dicts = {"email": email, "message": message}
+    store_feedback(dicts)
+    return render_template('index.html')
+
+
+if __name__ == '__main__':
+    app.run()
